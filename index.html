@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood Pressure Checker</title>
+  <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      text-align: center;
+      padding: 1.5rem 0;
+      background: #1e293b;
+      border-bottom: 3px solid #38bdf8;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      color: #38bdf8;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #cbd5e1;
+    }
+
+    /* Main Content */
+    .main {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    /* Owner Card */
+    .owner-card {
+      background: #1e293b;
+      border-radius: 15px;
+      padding: 1.5rem;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .owner-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+    }
+
+    .owner-card img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #38bdf8;
+      margin-bottom: 1rem;
+    }
+
+    .owner-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #38bdf8;
+    }
+
+    .owner-card p {
+      font-size: 1rem;
+      color: #cbd5e1;
+    }
+
+    /* Program Section */
+    .container {
+      text-align: center;
+      background: #1e293b;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #38bdf8;
+    }
+
+    p {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+      color: #cbd5e1;
+    }
+
+    /* Finger Area */
+    .finger-area {
+      margin: 2rem auto;
+      background: radial-gradient(circle at 50% 50%, #38bdf8, #1e3a8a);
+      height: 150px;
+      width: 150px;
+      border-radius: 50%;
+      box-shadow: 0 6px 15px rgba(56, 189, 248, 0.8);
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .finger-area:active {
+      transform: scale(0.95);
+      box-shadow: 0 4px 10px rgba(56, 189, 248, 0.6);
+    }
+
+    /* Pulse Effect */
+    .pulse {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(56, 189, 248, 0.4);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* Hidden initially */
+    .result {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .result.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Loader Animation */
+    .loader {
+      border: 4px solid #1e293b;
+      border-top: 4px solid #38bdf8;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 1rem auto;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Scroll Button */
+    .scroll-btn {
+      background: #38bdf8;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .scroll-btn:hover {
+      background: #1e3a8a;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to the Blood Pressure Checker</h1>
+    <p>This program helps simulate your blood pressure levels.</p>
+    <button class="scroll-btn" onclick="scrollToSection()">Get Started</button>
+  </header>
+
+  <main class="main">
+    <!-- Owner Card -->
+    <div class="owner-card">
+      <img src="https://via.placeholder.com/120" alt="Owner Picture">
+      <h2><b>MsangiJr</b></h2>
+      <p>Developer of this program, passionate about creating user-friendly health applications to improve lives.</p>
+    </div>
+
+    <!-- Blood Pressure Program -->
+    <div class="container" id="programSection">
+      <h1>Blood Pressure Checker</h1>
+      <p>Place your finger on the circle below to simulate a reading.</p>
+      <div class="finger-area" id="fingerArea">
+        <span class="pulse"></span>
+      </div>
+      <div class="result" id="resultSection">
+        Your blood pressure is: <strong id="bpResult">--</strong>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // JavaScript for Smooth Scrolling
+    function scrollToSection() {
+      document.getElementById("programSection").scrollIntoView({ behavior: "smooth" });
+    }
+
+    // JavaScript for Blood Pressure Simulation
+    const fingerArea = document.getElementById("fingerArea");
+    const resultSection = document.getElementById("resultSection");
+    const bpResult = document.getElementById("bpResult");
+
+    // Generate Random Blood Pressure
+    const getRandomBloodPressure = () => {
+      const systolic = Math.floor(Math.random() * (140 - 90 + 1)) + 90; // 90-140 range
+      const diastolic = Math.floor(Math.random() * (90 - 60 + 1)) + 60; // 60-90 range
+      return `${systolic}/${diastolic}`;
+    };
+
+    // Handle Finger Area Press
+    fingerArea.addEventListener("mousedown", () => {
+      // Show loader
+      const loader = document.createElement("div");
+      loader.className = "loader";
+      fingerArea.appendChild(loader);
+
+      // Hide previous result if any
+      resultSection.classList.remove("visible");
+
+      // Simulate Measurement
+      setTimeout(() => {
+        const result = getRandomBloodPressure();
+        bpResult.textContent = result;
+
+        // Show the result section
+        resultSection.classList.add("visible");
+
+        // Remove the loader
+        fingerArea.removeChild(loader);
+      }, 3000); // Simulate 3-second delay
+    });
+
+    // Reset interaction on touch end (for mobile)
+    fingerArea.addEventListener("mouseup", () => {
+      fingerArea.style.transform = "scale(1)";
+    });
+  </script>
+</body>
+</html>
